@@ -2,14 +2,9 @@ package cn.addenda.ec.calculator;
 
 import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ro.error.reporter.ROErrorReporter;
-import cn.addenda.ro.grammar.ast.AbstractCurdParser;
 import cn.addenda.ro.grammar.ast.CurdVisitor;
-import cn.addenda.ro.grammar.ast.create.Insert;
-import cn.addenda.ro.grammar.ast.delete.Delete;
 import cn.addenda.ro.grammar.ast.expression.*;
 import cn.addenda.ro.grammar.ast.expression.visitor.ExpressionVisitorForDelegation;
-import cn.addenda.ro.grammar.ast.retrieve.Select;
-import cn.addenda.ro.grammar.ast.update.Update;
 import cn.addenda.ro.grammar.lexical.token.Token;
 
 import java.util.List;
@@ -28,27 +23,14 @@ public class ExpressionCalculator extends ExpressionVisitorForDelegation<Object>
 
     private CalculatorRunTimeContext calculatorRunTimeContext;
 
-    private final CurdType type;
-
     private final Curd curd;
 
     private final ROErrorReporter roErrorReporter = new CalculatorROErrorReporterDelegate();
 
-    public ExpressionCalculator(CurdVisitor<Object> client, AbstractCurdParser abstractCurdParser) {
+    public ExpressionCalculator(CurdVisitor<Object> client, Curd curd, FunctionCalculator functionCalculator) {
         super(client);
-        curd = abstractCurdParser.parse();
-        if (curd instanceof Insert) {
-            type = CurdType.INSERT;
-        } else if (curd instanceof Delete) {
-            type = CurdType.DELETE;
-        } else if (curd instanceof Select) {
-            type = CurdType.SELECT;
-        } else if (curd instanceof Update) {
-            type = CurdType.UPDATE;
-        } else {
-            type = CurdType.EXPRESSION;
-        }
-        functionCalculator = (FunctionCalculator) abstractCurdParser.getFunctionEvaluator();
+        this.curd = curd;
+        this.functionCalculator = functionCalculator;
         setErrorReporter(roErrorReporter);
     }
 
@@ -237,7 +219,7 @@ public class ExpressionCalculator extends ExpressionVisitorForDelegation<Object>
             Curd item = parameterList.get(i);
             parameters[i] = item.accept(this);
         }
-        return functionCalculator.evaluate(function, type, parameters);
+        return functionCalculator.evaluate(function, CurdType.EXPRESSION, parameters);
     }
 
     @Override

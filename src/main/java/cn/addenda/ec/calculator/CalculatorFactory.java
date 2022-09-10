@@ -2,8 +2,8 @@ package cn.addenda.ec.calculator;
 
 import cn.addenda.ec.function.calculator.DefaultFunctionCalculator;
 import cn.addenda.ec.function.calculator.FunctionCalculator;
-import cn.addenda.ro.grammar.ast.CurdParserFactory;
-import cn.addenda.ro.grammar.ast.expression.ExpressionParser;
+import cn.addenda.ro.grammar.ast.CurdUtils;
+import cn.addenda.ro.grammar.ast.expression.Curd;
 import cn.addenda.ro.grammar.lexical.scan.TokenSequence;
 
 /**
@@ -15,22 +15,22 @@ public class CalculatorFactory {
     private CalculatorFactory() {
     }
 
-    public static Calculator createExpressionCalculator(String sql, FunctionCalculator functionCalculator) {
-        ExpressionParser expressionParser = CurdParserFactory.createExpressionParser(sql, functionCalculator);
-        return new ExpressionCalculator(null, expressionParser);
-    }
-
     public static Calculator createExpressionCalculator(String sql) {
         return createExpressionCalculator(sql, DefaultFunctionCalculator.getInstance());
     }
 
-    public static Calculator createExpressionCalculator(TokenSequence tokenSequence, FunctionCalculator functionCalculator) {
-        ExpressionParser expressionParser = CurdParserFactory.createExpressionParser(tokenSequence, functionCalculator);
-        return new ExpressionCalculator(null, expressionParser);
+    public static Calculator createExpressionCalculator(String sql, FunctionCalculator functionCalculator) {
+        Curd curd = CurdUtils.parseExpression(sql, functionCalculator);
+        return new ExpressionCalculator(null, curd, functionCalculator);
     }
 
     public static Calculator createExpressionCalculator(TokenSequence tokenSequence) {
         return createExpressionCalculator(tokenSequence, DefaultFunctionCalculator.getInstance());
+    }
+
+    public static Calculator createExpressionCalculator(TokenSequence tokenSequence, FunctionCalculator functionCalculator) {
+        Curd curd = CurdUtils.parseExpression(tokenSequence, functionCalculator);
+        return new ExpressionCalculator(null, curd, functionCalculator);
     }
 
 }
