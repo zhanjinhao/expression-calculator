@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.date;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ro.grammar.ast.expression.*;
@@ -28,6 +28,11 @@ public class TimestampDiffHandler extends AbstractFunctionHandler {
 
     private static final LocalTime ZERO_TIME = LocalTime.parse("00:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"));
     private static final LocalDate ZERO_DATE = LocalDate.parse("1970-01-01", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
+    }
 
     @Override
     public String functionName() {

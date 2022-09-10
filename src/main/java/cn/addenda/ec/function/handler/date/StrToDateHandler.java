@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.date;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ec.function.handler.date.format.DateFormatParserFactory;
@@ -28,6 +28,11 @@ public class StrToDateHandler extends AbstractFunctionHandler {
 
     public StrToDateHandler(FunctionCalculator functionCalculator) {
         super(functionCalculator, new StrToDateDescriptor(functionCalculator));
+    }
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
     }
 
     @Override

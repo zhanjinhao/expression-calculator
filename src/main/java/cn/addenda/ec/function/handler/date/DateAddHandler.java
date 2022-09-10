@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.date;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ec.utils.DateUtils;
@@ -24,6 +24,11 @@ public class DateAddHandler extends AbstractFunctionHandler {
 
     public DateAddHandler(FunctionCalculator functionCalculator) {
         super(functionCalculator, new DateAddDescriptor(functionCalculator));
+    }
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
     }
 
     @Override

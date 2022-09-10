@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.string;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ro.grammar.ast.expression.CurdType;
 import cn.addenda.ro.grammar.ast.expression.Function;
@@ -14,6 +14,11 @@ public class ConcatHandler extends AbstractFunctionHandler {
 
     public ConcatHandler(FunctionCalculator functionCalculator) {
         super(functionCalculator, new ConcatDescriptor(functionCalculator));
+    }
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
     }
 
     @Override

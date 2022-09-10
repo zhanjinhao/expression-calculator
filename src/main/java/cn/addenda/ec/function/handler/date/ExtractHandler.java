@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.date;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ro.grammar.ast.expression.*;
@@ -15,6 +15,11 @@ public class ExtractHandler extends AbstractFunctionHandler {
 
     public ExtractHandler(FunctionCalculator functionCalculator) {
         super(functionCalculator, new ExtractDescriptor(functionCalculator));
+    }
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
     }
 
     @Override

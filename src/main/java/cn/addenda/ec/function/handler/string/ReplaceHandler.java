@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.string;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ro.grammar.ast.expression.*;
 import cn.addenda.ro.grammar.function.descriptor.string.ReplaceDescriptor;
@@ -13,6 +13,11 @@ public class ReplaceHandler extends AbstractFunctionHandler {
 
     public ReplaceHandler(FunctionCalculator functionCalculator) {
         super(functionCalculator, new ReplaceDescriptor(functionCalculator));
+    }
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
     }
 
     @Override

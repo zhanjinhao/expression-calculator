@@ -1,4 +1,4 @@
-package cn.addenda.ec.function.evaluator;
+package cn.addenda.ec.function.calculator;
 
 import cn.addenda.ec.function.handler.date.*;
 import cn.addenda.ec.function.handler.logic.DecodeHandler;
@@ -41,4 +41,8 @@ public class DefaultFunctionCalculator extends AbstractFunctionCalculator {
 
     }
 
+    @Override
+    public String name() {
+        return "DefaultFunctionCalculator";
+    }
 }

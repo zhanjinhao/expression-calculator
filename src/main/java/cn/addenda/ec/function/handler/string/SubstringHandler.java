@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.string;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ro.grammar.ast.expression.CurdType;
@@ -15,6 +15,11 @@ public class SubstringHandler extends AbstractFunctionHandler {
 
     public SubstringHandler(FunctionCalculator functionCalculator) {
         super(functionCalculator, new SubstringDescriptor(functionCalculator));
+    }
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
     }
 
     @Override

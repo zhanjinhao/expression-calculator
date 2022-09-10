@@ -1,7 +1,7 @@
 package cn.addenda.ec.calculator;
 
-import cn.addenda.ec.function.evaluator.DefaultFunctionCalculator;
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.DefaultFunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ro.grammar.ast.CurdParserFactory;
 import cn.addenda.ro.grammar.ast.expression.ExpressionParser;
 import cn.addenda.ro.grammar.lexical.scan.TokenSequence;

@@ -1,6 +1,6 @@
 package cn.addenda.ec.function.handler.logic;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ro.grammar.ast.expression.CurdType;
@@ -15,6 +15,11 @@ public class IfHandler extends AbstractFunctionHandler {
 
     public IfHandler(FunctionCalculator functionCalculator) {
         super(functionCalculator, new IfDescriptor(functionCalculator));
+    }
+
+    @Override
+    public boolean isIndependent() {
+        return functionDescriptor.isIndependent();
     }
 
     @Override

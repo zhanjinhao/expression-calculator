@@ -1,6 +1,6 @@
 package cn.addenda.ec.calculator;
 
-import cn.addenda.ec.function.evaluator.FunctionCalculator;
+import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ro.error.reporter.ROErrorReporter;
 import cn.addenda.ro.grammar.ast.AbstractCurdParser;
 import cn.addenda.ro.grammar.ast.CurdVisitor;
@@ -60,6 +60,27 @@ public class ExpressionCalculator extends ExpressionVisitorForDelegation<Object>
     public Object calculate(CalculatorRunTimeContext calculatorRunTimeContext) {
         this.calculatorRunTimeContext = calculatorRunTimeContext;
         return curd.accept(this);
+    }
+
+    @Override
+    public Object visitInCondition(InCondition inCondition) {
+        Curd select = inCondition.getSelect();
+        if (select != null) {
+            throw new CalculatorException("inCondition 语法只有 in (1, 2, 3) 语法可以计算。");
+        }
+        Token inColumn = inCondition.getIdentifier();
+        String inColumnName = String.valueOf(inColumn.getLiteral());
+        Object inValue = calculatorRunTimeContext.get(inColumnName);
+        if (inValue == null) {
+            throw new CalculatorException("计算器上下文里没有 " + inColumnName + " 的值！");
+        }
+        List<Curd> range = inCondition.getRange();
+        for (Curd item : range) {
+            if (MathCalculatorDelegate.equal(inValue, item.accept(this))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
