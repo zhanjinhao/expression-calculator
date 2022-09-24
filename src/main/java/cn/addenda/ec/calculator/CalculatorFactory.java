@@ -20,7 +20,7 @@ public class CalculatorFactory {
     }
 
     public static Calculator createExpressionCalculator(String sql, FunctionCalculator functionCalculator) {
-        Curd curd = CurdUtils.parseExpression(sql, functionCalculator);
+        Curd curd = CurdUtils.parseExpression(sql, functionCalculator, false);
         return new ExpressionCalculator(null, curd, functionCalculator);
     }
 
@@ -29,7 +29,7 @@ public class CalculatorFactory {
     }
 
     public static Calculator createExpressionCalculator(TokenSequence tokenSequence, FunctionCalculator functionCalculator) {
-        Curd curd = CurdUtils.parseExpression(tokenSequence, functionCalculator);
+        Curd curd = CurdUtils.parseExpression(tokenSequence, functionCalculator, false);
         return new ExpressionCalculator(null, curd, functionCalculator);
     }
 
