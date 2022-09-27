@@ -33,4 +33,12 @@ public class CalculatorFactory {
         return new ExpressionCalculator(null, curd, functionCalculator);
     }
 
+    public static Calculator createExpressionCalculator(Curd curd) {
+        return createExpressionCalculator(curd, DefaultFunctionCalculator.getInstance());
+    }
+
+    public static Calculator createExpressionCalculator(Curd curd, FunctionCalculator functionCalculator) {
+        return new ExpressionCalculator(null, curd, functionCalculator);
+    }
+
 }
