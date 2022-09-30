@@ -42,7 +42,7 @@ public class ReplaceHandler extends AbstractFunctionHandler {
         String oldSeg = (String) parameters[1];
         String newSeg = (String) parameters[2];
 
-        return str.replaceAll(oldSeg, newSeg);
+        return str.replace(oldSeg, newSeg);
     }
 
 }

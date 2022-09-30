@@ -102,4 +102,10 @@ public class ExpressionCalculatorTest {
         System.out.println(statementOperator.calculate(calculatorRunTimeContext));
     }
 
+    @Test
+    public void test9() {
+        Calculator statementOperator = CalculatorFactory.createExpressionCalculator("replace('123', '1', '\\'')");
+        System.out.println(statementOperator.calculate());
+    }
+
 }
