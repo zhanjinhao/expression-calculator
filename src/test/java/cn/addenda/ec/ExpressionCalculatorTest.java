@@ -66,4 +66,40 @@ public class ExpressionCalculatorTest {
         System.out.println(statementOperator.calculate(calculatorRunTimeContext));
     }
 
+
+    @Test
+    public void test6() {
+        Calculator statementOperator = CalculatorFactory.createExpressionCalculator("date_sub(date_add('2021-12-12', interval 10 day), interval 2 month)");
+        CalculatorRunTimeContext calculatorRunTimeContext = new CalculatorRunTimeContext();
+        calculatorRunTimeContext.put("a", new BigInteger("5"));
+        calculatorRunTimeContext.put("b", true);
+        calculatorRunTimeContext.put("c", "12345");
+        calculatorRunTimeContext.put("d", LocalDateTime.of(2021, 12, 12, 0, 0, 1));
+        System.out.println(statementOperator.calculate(calculatorRunTimeContext));
+    }
+
+
+    @Test
+    public void test7() {
+        Calculator statementOperator = CalculatorFactory.createExpressionCalculator("date_sub(date_add('2021-12-12 08:00:00', interval 10 day), interval 2 hour)");
+        CalculatorRunTimeContext calculatorRunTimeContext = new CalculatorRunTimeContext();
+        calculatorRunTimeContext.put("a", new BigInteger("5"));
+        calculatorRunTimeContext.put("b", true);
+        calculatorRunTimeContext.put("c", "12345");
+        calculatorRunTimeContext.put("d", LocalDateTime.of(2021, 12, 12, 0, 0, 1));
+        System.out.println(statementOperator.calculate(calculatorRunTimeContext));
+    }
+
+
+    @Test
+    public void test8() {
+        Calculator statementOperator = CalculatorFactory.createExpressionCalculator("extract(hour from '2021-12-12 08:00:00')");
+        CalculatorRunTimeContext calculatorRunTimeContext = new CalculatorRunTimeContext();
+        calculatorRunTimeContext.put("a", new BigInteger("5"));
+        calculatorRunTimeContext.put("b", true);
+        calculatorRunTimeContext.put("c", "12345");
+        calculatorRunTimeContext.put("d", LocalDateTime.of(2021, 12, 12, 0, 0, 1));
+        System.out.println(statementOperator.calculate(calculatorRunTimeContext));
+    }
+
 }

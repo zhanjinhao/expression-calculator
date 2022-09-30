@@ -44,8 +44,15 @@ public class ExtractHandler extends AbstractFunctionHandler {
 
         Token token = timeUnit.getTimeType();
         Literal literal = (Literal) timeUnit.getCurd();
+        Object date = literal.getValue().getLiteral();
+        if (date instanceof String) {
+            date = stringToDate(date, type);
+            if (date == null) {
+                error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION);
+            }
+        }
 
-        int numericValue = getNumericValue(literal.getValue().getLiteral(), token);
+        int numericValue = getNumericValue(date, token);
 
         if (numericValue == -1) {
             error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION);

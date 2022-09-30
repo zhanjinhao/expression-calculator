@@ -2,19 +2,22 @@ package cn.addenda.ec.function.handler.date;
 
 import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
+import cn.addenda.ec.function.handler.FunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ec.utils.DateUtils;
-import cn.addenda.ro.grammar.ast.expression.CurdType;
-import cn.addenda.ro.grammar.ast.expression.Function;
-import cn.addenda.ro.grammar.ast.expression.TimeInterval;
+import cn.addenda.ro.grammar.ast.expression.*;
 import cn.addenda.ro.grammar.constant.DateConst;
 import cn.addenda.ro.grammar.function.descriptor.date.DateAddDescriptor;
 import cn.addenda.ro.grammar.lexical.token.Token;
+import cn.addenda.ro.grammar.lexical.token.TokenType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @Author ISJINHAO
@@ -48,9 +51,26 @@ public class DateAddHandler extends AbstractFunctionHandler {
 
     @Override
     public Object evaluate(Function function, CurdType type, Object... parameters) {
-
         Object date = parameters[0];
         TimeInterval interval = (TimeInterval) parameters[1];
+        Object result = doAdd(date, interval, false, function);
+        if (result == null) {
+            if (date instanceof String) {
+                date = stringToDate(date, type);
+                if (date == null) {
+                    error(FunctionHandlerROErrorReporterDelegate.FUNCTION_dateType_CALCULATION, function);
+                } else {
+                    return doAdd(date, interval, false, function);
+                }
+            } else {
+                error(FunctionHandlerROErrorReporterDelegate.FUNCTION_dateType_CALCULATION, function);
+            }
+        }
+        return result;
+    }
+
+
+    private Object doAdd(Object date, TimeInterval interval, boolean throwException, Function function) {
         if (date instanceof Date) {
             return dateAdd((Date) date, interval);
         } else if (date instanceof LocalDateTime) {
@@ -60,8 +80,9 @@ public class DateAddHandler extends AbstractFunctionHandler {
         } else if (date instanceof LocalTime) {
             return localTimeAdd((LocalTime) date, interval);
         }
-
-        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_dateType_CALCULATION, function);
+        if (throwException) {
+            error(FunctionHandlerROErrorReporterDelegate.FUNCTION_dateType_CALCULATION, function);
+        }
         return null;
     }
 
