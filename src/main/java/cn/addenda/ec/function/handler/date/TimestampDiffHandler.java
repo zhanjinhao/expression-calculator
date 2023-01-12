@@ -3,7 +3,9 @@ package cn.addenda.ec.function.handler.date;
 import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
-import cn.addenda.ro.grammar.ast.expression.*;
+import cn.addenda.ro.grammar.ast.expression.CurdType;
+import cn.addenda.ro.grammar.ast.expression.Function;
+import cn.addenda.ro.grammar.ast.expression.Identifier;
 import cn.addenda.ro.grammar.constant.DateConst;
 import cn.addenda.ro.grammar.function.descriptor.date.TimestampDiffDescriptor;
 import cn.addenda.ro.grammar.lexical.token.Token;
@@ -53,7 +55,7 @@ public class TimestampDiffHandler extends AbstractFunctionHandler {
     @Override
     public Object evaluate(Function function, CurdType type, Object... parameters) {
 
-        Token interval = ((Identifier) ((Attachment) parameters[0]).getAttachment()).getName();
+        Token interval = ((Identifier) (parameters[0])).getName();
         Object start = parameters[1];
         Object end = parameters[2];
 

@@ -204,7 +204,11 @@ public class ExpressionCalculator extends ExpressionVisitorForDelegation<Object>
 
     @Override
     public Object visitIdentifier(Identifier identifier) {
-        return calculatorRunTimeContext.get((String) identifier.getName().getLiteral());
+        if (calculatorRunTimeContext == null) {
+            return identifier;
+        }
+        Object o = calculatorRunTimeContext.get((String) identifier.getName().getLiteral());
+        return o == null ? identifier : o;
     }
 
     /**
@@ -241,11 +245,6 @@ public class ExpressionCalculator extends ExpressionVisitorForDelegation<Object>
     @Override
     public Object visitIsNot(IsNot isNot) {
         return isNot;
-    }
-
-    @Override
-    public Object visitAttachment(Attachment attachment) {
-        return attachment;
     }
 
     private void error(int errorCode, Object object, boolean checkOperand) {
