@@ -108,4 +108,10 @@ public class ExpressionCalculatorTest {
         System.out.println(statementOperator.calculate());
     }
 
+    @Test
+    public void test10() {
+        Calculator statementOperator = CalculatorFactory.createExpressionCalculator("timestampdiff(month, str_to_date('2010-01-01', '%Y-%m-%d'), str_to_date('2010-06-10', '%Y-%m-%d'))");
+        System.out.println(statementOperator.calculate());
+    }
+
 }
