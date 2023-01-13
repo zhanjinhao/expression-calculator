@@ -42,7 +42,7 @@ public class CalculatorROErrorReporterDelegate extends AbstractROErrorReporterDe
     }
 
     @Override
-    public void error(int errorCode, ROError attachment) {
-        throw new FunctionException(errorCode, getErrorMsg(errorCode) + SEPARATOR + getSuffix(attachment));
+    public void error(int errorCode, ROError roError) {
+        throw new FunctionException(errorCode, getErrorMsg(errorCode) + SEPARATOR + getSuffix(roError));
     }
 }

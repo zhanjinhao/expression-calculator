@@ -7,10 +7,6 @@ import cn.addenda.ro.grammar.function.FunctionException;
 import cn.addenda.ro.grammar.lexical.token.Token;
 
 /**
- * AstROErrorReporterDelegate 和 FunctionROErrorReporterDelegate 区别：
- * 一个SQL语句对应一个Ast，所以，将tokenSequence传入到AstROErrorReporterDelegate中，就可以将Ast当ROError用。
- * FunctionHandler会在多个Ast中被使用，所以不能将Function传入FunctionROErrorReporterDelegate，即无法将FunctionHandler当ROError用。
- *
  * @Author ISJINHAO
  * @Date 2021/7/27 22:23
  */
@@ -31,12 +27,6 @@ public class FunctionHandlerROErrorReporterDelegate extends AbstractROErrorRepor
             Token method = function.getMethod();
             return "Current method is: " + method.getLiteral() + ", and current index is: " + method.getIndex() + ".";
         });
-
-        addSuffixFunction(FunctionHandler.class, (error) -> {
-            FunctionHandler functionHandler = (FunctionHandler) error;
-            return "Current functionHandler is: " + functionHandler.functionName() + ".";
-        });
-
     }
 
     @Override
@@ -45,8 +35,8 @@ public class FunctionHandlerROErrorReporterDelegate extends AbstractROErrorRepor
     }
 
     @Override
-    public void error(int errorCode, ROError attachment) {
-        throw new FunctionException(errorCode, getErrorMsg(errorCode) + SEPARATOR + getSuffix(attachment));
+    public void error(int errorCode, ROError roError) {
+        throw new FunctionException(errorCode, getErrorMsg(errorCode) + SEPARATOR + getSuffix(roError));
     }
 
     public static final int FUNCTION_unknown_CALCULATION = 50002;
@@ -64,10 +54,10 @@ public class FunctionHandlerROErrorReporterDelegate extends AbstractROErrorRepor
     public static final int FUNCTION_repeatedPattern_CALCULATION = 50006;
     public static final String FUNCTION_repeatedPattern_CALCULATION_MSG = "Repeated format pattern. ";
 
-    public static final int FUNCTION_HANDLER_REPEATED = 51000;
+    public static final int FUNCTION_HANDLER_REPEATED = 51001;
     public static final String FUNCTION_HANDLER_REPEATED_MSG = "FunctionHandler has existed: ";
 
-    public static final int FUNCTION_HANDLER_INSTANTIATION = 52000;
+    public static final int FUNCTION_HANDLER_INSTANTIATION = 52001;
     public static final String FUNCTION_HANDLER_INSTANTIATION_MSG = "Failed to instantiate functionHandler: ";
 
 }

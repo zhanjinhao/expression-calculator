@@ -7,7 +7,9 @@ import cn.addenda.ro.error.ROError;
 import cn.addenda.ro.error.reporter.ROErrorReporter;
 import cn.addenda.ro.grammar.ast.expression.CurdType;
 import cn.addenda.ro.grammar.ast.expression.Function;
+import cn.addenda.ro.grammar.function.FunctionException;
 import cn.addenda.ro.grammar.function.descriptor.FunctionDescriptor;
+import cn.addenda.ro.grammar.function.descriptor.FunctionDescriptorROErrorReporterDelegate;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -45,7 +47,7 @@ public abstract class AbstractFunctionCalculator implements FunctionCalculator, 
             }
             functionHandlerMap.put(functionHandler.functionName(), functionHandler);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            error(FunctionHandlerROErrorReporterDelegate.FUNCTION_HANDLER_INSTANTIATION, e);
+            throw new FunctionException(FunctionDescriptorROErrorReporterDelegate.FUNCTION_HANDLER_INSTANTIATION_PARSE, "Failed to instantiate functionHandler.", e);
         }
     }
 
@@ -84,12 +86,8 @@ public abstract class AbstractFunctionCalculator implements FunctionCalculator, 
     }
 
     @Override
-    public void error(int errorCode, ROError attachment) {
-        errorReporterDelegate.error(errorCode, attachment);
+    public void error(int errorCode, ROError roError) {
+        errorReporterDelegate.error(errorCode, roError);
     }
 
-    @Override
-    public void error(int errorCode, Throwable throwable) {
-        errorReporterDelegate.error(errorCode, throwable);
-    }
 }

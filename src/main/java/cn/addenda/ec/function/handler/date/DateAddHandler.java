@@ -2,22 +2,19 @@ package cn.addenda.ec.function.handler.date;
 
 import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
-import cn.addenda.ec.function.handler.FunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ec.utils.DateUtils;
-import cn.addenda.ro.grammar.ast.expression.*;
+import cn.addenda.ro.grammar.ast.expression.CurdType;
+import cn.addenda.ro.grammar.ast.expression.Function;
+import cn.addenda.ro.grammar.ast.expression.TimeInterval;
 import cn.addenda.ro.grammar.constant.DateConst;
 import cn.addenda.ro.grammar.function.descriptor.date.DateAddDescriptor;
 import cn.addenda.ro.grammar.lexical.token.Token;
-import cn.addenda.ro.grammar.lexical.token.TokenType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * @Author ISJINHAO
@@ -72,13 +69,13 @@ public class DateAddHandler extends AbstractFunctionHandler {
 
     private Object doAdd(Object date, TimeInterval interval, boolean throwException, Function function) {
         if (date instanceof Date) {
-            return dateAdd((Date) date, interval);
+            return dateAdd((Date) date, interval, function);
         } else if (date instanceof LocalDateTime) {
-            return localDateTimeAdd((LocalDateTime) date, interval);
+            return localDateTimeAdd((LocalDateTime) date, interval, function);
         } else if (date instanceof LocalDate) {
-            return localDateAdd((LocalDate) date, interval);
+            return localDateAdd((LocalDate) date, interval, function);
         } else if (date instanceof LocalTime) {
-            return localTimeAdd((LocalTime) date, interval);
+            return localTimeAdd((LocalTime) date, interval, function);
         }
         if (throwException) {
             error(FunctionHandlerROErrorReporterDelegate.FUNCTION_dateType_CALCULATION, function);
@@ -86,7 +83,7 @@ public class DateAddHandler extends AbstractFunctionHandler {
         return null;
     }
 
-    private Object localTimeAdd(LocalTime date, TimeInterval interval) {
+    private Object localTimeAdd(LocalTime date, TimeInterval interval, Function function) {
         long intervalValue = interval.getInterval().longValue();
         Token type = interval.getTimeType();
 
@@ -100,11 +97,11 @@ public class DateAddHandler extends AbstractFunctionHandler {
             return date.plusHours(intervalValue);
         }
 
-        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, this);
+        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, function);
         return null;
     }
 
-    private Object localDateAdd(LocalDate date, TimeInterval interval) {
+    private Object localDateAdd(LocalDate date, TimeInterval interval, Function function) {
         long intervalValue = interval.getInterval().longValue();
         Token type = interval.getTimeType();
 
@@ -120,12 +117,12 @@ public class DateAddHandler extends AbstractFunctionHandler {
             return date.plusYears(intervalValue);
         }
 
-        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, this);
+        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, function);
         return null;
 
     }
 
-    private Object localDateTimeAdd(LocalDateTime date, TimeInterval interval) {
+    private Object localDateTimeAdd(LocalDateTime date, TimeInterval interval, Function function) {
         long intervalValue = interval.getInterval().longValue();
         Token type = interval.getTimeType();
 
@@ -149,11 +146,11 @@ public class DateAddHandler extends AbstractFunctionHandler {
             return date.plusYears(intervalValue);
         }
 
-        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, this);
+        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, function);
         return null;
     }
 
-    private Object dateAdd(Date date, TimeInterval interval) {
+    private Object dateAdd(Date date, TimeInterval interval, Function function) {
         int intervalValue = interval.getInterval().intValue();
         Token type = interval.getTimeType();
 
@@ -177,7 +174,7 @@ public class DateAddHandler extends AbstractFunctionHandler {
             return DateUtils.addYears(date, intervalValue);
         }
 
-        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, this);
+        error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, function);
         return null;
     }
 

@@ -4,7 +4,9 @@ import cn.addenda.ec.function.calculator.FunctionCalculator;
 import cn.addenda.ec.function.handler.AbstractFunctionHandler;
 import cn.addenda.ec.function.handler.FunctionHandlerROErrorReporterDelegate;
 import cn.addenda.ec.function.handler.date.format.DateFormatParserFactory;
-import cn.addenda.ro.grammar.ast.expression.*;
+import cn.addenda.ro.grammar.ast.expression.CurdType;
+import cn.addenda.ro.grammar.ast.expression.Function;
+import cn.addenda.ro.grammar.ast.expression.Literal;
 import cn.addenda.ro.grammar.constant.DateConst;
 import cn.addenda.ro.grammar.function.descriptor.date.DateFormatDescriptor;
 import cn.addenda.ro.grammar.lexical.token.Token;
@@ -58,13 +60,13 @@ public class DateFormatHandler extends AbstractFunctionHandler {
             return "";
         }
 
-        return format(date, tokens);
+        return format(date, tokens, function);
     }
 
-    private String format(Object date, List<Token> tokens) {
+    private String format(Object date, List<Token> tokens, Function function) {
         StringBuilder sb = new StringBuilder();
         for (Token token : tokens) {
-            int value = doGetNumericValue(date, token);
+            int value = doGetNumericValue(date, token, function);
             if (value == -2) {
                 sb.append(token.getLiteral());
             } else {
@@ -74,7 +76,7 @@ public class DateFormatHandler extends AbstractFunctionHandler {
         return sb.toString();
     }
 
-    private int doGetNumericValue(Object date, Token token) {
+    private int doGetNumericValue(Object date, Token token, Function function) {
         int value = -1;
         if (DateConst.YEAR_FORMAT.equals(token)) {
             value = getNumericValue(date, DateConst.YEAR);
@@ -96,7 +98,7 @@ public class DateFormatHandler extends AbstractFunctionHandler {
         }
 
         if (value == -1) {
-            error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, this);
+            error(FunctionHandlerROErrorReporterDelegate.FUNCTION_formatPattern_CALCULATION, function);
         }
         return value;
     }

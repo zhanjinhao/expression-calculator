@@ -17,8 +17,8 @@ public abstract class ErrorReportableFunctionHandler implements FunctionHandler,
     }
 
     @Override
-    public void error(int errorCode, ROError attachment) {
-        errorReporter.error(errorCode, attachment);
+    public void error(int errorCode, ROError roError) {
+        errorReporter.error(errorCode, roError);
     }
 
 }
